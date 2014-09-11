@@ -37,17 +37,17 @@ namespace Kumiko.CommandBus
         /// <summary>
         /// The instantiate command handlers.
         /// </summary>
-        private readonly IInstantiateCommandHandlers _instantiateCommandHandlers;
+        private readonly ICommandHandlerCreator _commandHandlerCreator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Dispatcher"/> class.
         /// </summary>
-        /// <param name="instantiateCommandHandlers">
+        /// <param name="commandHandlerCreator">
         /// The instantiate command handlers.
         /// </param>
-        public Dispatcher(IInstantiateCommandHandlers instantiateCommandHandlers)
+        public Dispatcher(ICommandHandlerCreator commandHandlerCreator)
         {
-            _instantiateCommandHandlers = instantiateCommandHandlers;
+            _commandHandlerCreator = commandHandlerCreator;
         }
 
         /// <summary>
@@ -78,7 +78,16 @@ namespace Kumiko.CommandBus
                 {
                     var context = new CommandContext();
 
-                    result = GetDispatcherMethod(typeToDispatch).Invoke(this, new object[] { command, context, handler });
+                    try
+                    {
+                        result = GetDispatcherMethod(typeToDispatch).Invoke(this, new object[] { command, context, handler });
+                    }
+                    catch (TargetInvocationException targetInvocationException)
+                    {
+                        var exception = targetInvocationException.InnerException;
+
+                        throw exception;
+                    }
 
                     if (context.Abort)
                     {
@@ -144,7 +153,7 @@ namespace Kumiko.CommandBus
         {
             var instantiator = GetInstantiator(commandType);
 
-            var handlers = ((IEnumerable<ICommandHandler>)instantiator.Invoke(_instantiateCommandHandlers, new object[0])) ?? new ICommandHandler[0];
+            var handlers = ((IEnumerable<ICommandHandler>)instantiator.Invoke(_commandHandlerCreator, new object[0])) ?? new ICommandHandler[0];
 
             return handlers;
         }
@@ -158,8 +167,8 @@ namespace Kumiko.CommandBus
                 return instantiator;
             }
 
-            instantiator = _instantiateCommandHandlers.GetType()
-                .GetMethod("Instantiate")
+            instantiator = _commandHandlerCreator.GetType()
+                .GetMethod("Create")
                 .MakeGenericMethod(type);
 
             _instantiators[type] = instantiator;

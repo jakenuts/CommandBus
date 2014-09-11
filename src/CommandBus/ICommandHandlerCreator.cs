@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IInstantiateCommandHandlers.cs" company="Kumiko">
+// <copyright file="ICommandHandlerCreator.cs" company="Kumiko">
 //   Copyright © Kumiko 2014
 // </copyright>
 // <summary>
-//   Defines the IInstantiateCommandHandlers type.
+//   Defines the ICommandHandlerCreator type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,19 +12,19 @@ namespace Kumiko.CommandBus
     using System.Collections.Generic;
 
     /// <summary>
-    /// Defines the IInstantiateCommandHandlers type.
+    /// Defines the ICommandHandlerCreator type.
     /// </summary>
-    public interface IInstantiateCommandHandlers
+    public interface ICommandHandlerCreator
     {
         /// <summary>
-        /// Instantiate the command handlers for a given command type.
+        /// Create the command handlers for a given command type.
         /// </summary>
         /// <typeparam name="TCommand">
         /// The command type.
         /// </typeparam>
         /// <returns>
-        /// The instantiated command handlers.
+        /// The created command handlers.
         /// </returns>
-        IEnumerable<ICommandHandler> Instantiate<TCommand>();
+        IEnumerable<ICommandHandler> Create<TCommand>();
     }
 }

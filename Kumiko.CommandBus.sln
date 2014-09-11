@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{29
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example", "src\examples\Example\Example.csproj", "{839B05DB-E759-4710-90CA-F61C5E47ADB2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandBus.StructureMap", "src\CommandBus.StructureMap\CommandBus.StructureMap.csproj", "{CE61D3F2-2A53-400F-89F0-A4FF5122606D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,16 @@ Global
 		{839B05DB-E759-4710-90CA-F61C5E47ADB2}.Release|Mixed Platforms.Build.0 = Release|x86
 		{839B05DB-E759-4710-90CA-F61C5E47ADB2}.Release|x86.ActiveCfg = Release|x86
 		{839B05DB-E759-4710-90CA-F61C5E47ADB2}.Release|x86.Build.0 = Release|x86
+		{CE61D3F2-2A53-400F-89F0-A4FF5122606D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE61D3F2-2A53-400F-89F0-A4FF5122606D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE61D3F2-2A53-400F-89F0-A4FF5122606D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CE61D3F2-2A53-400F-89F0-A4FF5122606D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CE61D3F2-2A53-400F-89F0-A4FF5122606D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CE61D3F2-2A53-400F-89F0-A4FF5122606D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE61D3F2-2A53-400F-89F0-A4FF5122606D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE61D3F2-2A53-400F-89F0-A4FF5122606D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CE61D3F2-2A53-400F-89F0-A4FF5122606D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CE61D3F2-2A53-400F-89F0-A4FF5122606D}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
