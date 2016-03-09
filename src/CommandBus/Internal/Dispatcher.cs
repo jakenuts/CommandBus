@@ -7,43 +7,44 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Kumiko.CommandBus
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 
+namespace Kumiko.CommandBus.Internal
+{
     /// <summary>
-    /// Defines the Dispatcher type.
+    ///     Defines the Dispatcher type.
     /// </summary>
     public class Dispatcher : IDispatcher
     {
         /// <summary>
-        /// The types to dispatch cache.
-        /// </summary>
-        private readonly IDictionary<Type, Type[]> _typesToDispatchCache = new Dictionary<Type, Type[]>();
-
-        /// <summary>
-        /// The instantiators.
-        /// </summary>
-        private readonly IDictionary<Type, MethodInfo> _instantiators = new Dictionary<Type, MethodInfo>();
-
-        /// <summary>
-        /// The dispatcher methods.
-        /// </summary>
-        private readonly Dictionary<Type, MethodInfo> _dispatcherMethods = new Dictionary<Type, MethodInfo>();
-
-        /// <summary>
-        /// The instantiate command handlers.
+        ///     The instantiate command handlers.
         /// </summary>
         private readonly ICommandHandlerCreator _commandHandlerCreator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Dispatcher"/> class.
+        ///     The dispatcher methods.
+        /// </summary>
+        private readonly Dictionary<Type, MethodInfo> _dispatcherMethods = new Dictionary<Type, MethodInfo>();
+
+        /// <summary>
+        ///     The instantiators.
+        /// </summary>
+        private readonly IDictionary<Type, MethodInfo> _instantiators = new Dictionary<Type, MethodInfo>();
+
+        /// <summary>
+        ///     The types to dispatch cache.
+        /// </summary>
+        private readonly IDictionary<Type, Type[]> _typesToDispatchCache = new Dictionary<Type, Type[]>();
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Dispatcher" /> class.
         /// </summary>
         /// <param name="commandHandlerCreator">
-        /// The instantiate command handlers.
+        ///     The instantiate command handlers.
         /// </param>
         public Dispatcher(ICommandHandlerCreator commandHandlerCreator)
         {
@@ -51,20 +52,20 @@ namespace Kumiko.CommandBus
         }
 
         /// <summary>
-        /// Dispatch a command against all registered command shandlers.
+        ///     Dispatch a command against all registered command shandlers.
         /// </summary>
         /// <typeparam name="TCommand">
-        /// The command type.
+        ///     The command type.
         /// </typeparam>
         /// <param name="command">
-        /// The command.
+        ///     The command.
         /// </param>
         /// <returns>
-        /// The dispatch result.
+        ///     The dispatch result.
         /// </returns>
-        public object Dispatch<TCommand>(TCommand command)
+        public async Task<object> Dispatch<TCommand>(TCommand command)
         {
-            var types = GetCommandTypes(typeof(TCommand));
+            var types = GetCommandTypes(typeof (TCommand));
 
             var handlers = types.SelectMany(CreateHandlers).Distinct();
 
@@ -80,7 +81,11 @@ namespace Kumiko.CommandBus
 
                     try
                     {
-                        result = GetDispatcherMethod(typeToDispatch).Invoke(this, new object[] { command, context, handler });
+                        result =
+                            await
+                                (Task<object>)
+                                    GetDispatcherMethod(typeToDispatch)
+                                        .Invoke(this, new object[] {command, context, handler});
                     }
                     catch (TargetInvocationException targetInvocationException)
                     {
@@ -99,10 +104,11 @@ namespace Kumiko.CommandBus
             return result;
         }
 
-        private static IEnumerable<Type> GetTypesToDispatchToThisHandler(IEnumerable<Type> typesToDispatch, Type handlerType)
+        private static IEnumerable<Type> GetTypesToDispatchToThisHandler(IEnumerable<Type> typesToDispatch,
+            Type handlerType)
         {
             var interfaces = handlerType.GetInterfaces()
-                .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICommandHandler<>))
+                .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof (ICommandHandler<>))
                 .Select(i => i.GetGenericArguments()[0]);
 
             return interfaces.Intersect(typesToDispatch).ToArray();
@@ -127,7 +133,7 @@ namespace Kumiko.CommandBus
             return types.ToArray();
         }
 
-        MethodInfo GetDispatcherMethod(Type typeToDispatch)
+        private MethodInfo GetDispatcherMethod(Type typeToDispatch)
         {
             MethodInfo method;
 
@@ -136,7 +142,7 @@ namespace Kumiko.CommandBus
                 return method;
             }
 
-            method = GetType().GetMethod("DispatchToHandler", BindingFlags.NonPublic | BindingFlags.Instance)
+            method = GetType().GetMethod(nameof(DispatchToHandler), BindingFlags.NonPublic | BindingFlags.Instance)
                 .MakeGenericMethod(typeToDispatch);
 
             _dispatcherMethods[typeToDispatch] = method;
@@ -144,16 +150,18 @@ namespace Kumiko.CommandBus
             return method;
         }
 
-        private object DispatchToHandler<TCommand>(TCommand command, ICommandContext context, ICommandHandler<TCommand> handler)
+        private async Task<object> DispatchToHandler<TCommand>(TCommand command, ICommandContext context,
+            ICommandHandler<TCommand> handler)
         {
-            return handler.Handle(command, context);
+            return await handler.Handle(command, context);
         }
 
         private IEnumerable<ICommandHandler> CreateHandlers(Type commandType)
         {
             var instantiator = GetInstantiator(commandType);
 
-            var handlers = ((IEnumerable<ICommandHandler>)instantiator.Invoke(_commandHandlerCreator, new object[0])) ?? new ICommandHandler[0];
+            var handlers = (IEnumerable<ICommandHandler>) instantiator.Invoke(_commandHandlerCreator, new object[0]) ??
+                           new ICommandHandler[0];
 
             return handlers;
         }

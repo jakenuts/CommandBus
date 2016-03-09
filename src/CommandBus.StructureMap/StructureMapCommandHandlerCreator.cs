@@ -7,28 +7,27 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
+using StructureMap;
+
 namespace Kumiko.CommandBus.StructureMap
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using global::StructureMap;
-
     /// <summary>
-    /// Defines the StructureMapCommandHandlerCreator type.
+    ///     Defines the StructureMapCommandHandlerCreator type.
     /// </summary>
     public class StructureMapCommandHandlerCreator : ICommandHandlerCreator
     {
         /// <summary>
-        /// The container.
+        ///     The container.
         /// </summary>
         private readonly IContainer _container;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StructureMapCommandHandlerCreator"/> class.
+        ///     Initializes a new instance of the <see cref="StructureMapCommandHandlerCreator" /> class.
         /// </summary>
         /// <param name="container">
-        /// The container.
+        ///     The container.
         /// </param>
         public StructureMapCommandHandlerCreator(IContainer container)
         {
@@ -36,13 +35,13 @@ namespace Kumiko.CommandBus.StructureMap
         }
 
         /// <summary>
-        /// Create the command handlers for a given command type.
+        ///     Create the command handlers for a given command type.
         /// </summary>
         /// <typeparam name="TCommand">
-        /// The command type.
+        ///     The command type.
         /// </typeparam>
         /// <returns>
-        /// The created command handlers.
+        ///     The created command handlers.
         /// </returns>
         public IEnumerable<ICommandHandler> Create<TCommand>()
         {

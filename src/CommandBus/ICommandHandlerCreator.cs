@@ -7,23 +7,23 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace Kumiko.CommandBus
 {
-    using System.Collections.Generic;
-
     /// <summary>
-    /// Defines the ICommandHandlerCreator type.
+    ///     Defines the ICommandHandlerCreator type.
     /// </summary>
     public interface ICommandHandlerCreator
     {
         /// <summary>
-        /// Create the command handlers for a given command type.
+        ///     Create the command handlers for a given command type.
         /// </summary>
         /// <typeparam name="TCommand">
-        /// The command type.
+        ///     The command type.
         /// </typeparam>
         /// <returns>
-        /// The created command handlers.
+        ///     The created command handlers.
         /// </returns>
         IEnumerable<ICommandHandler> Create<TCommand>();
     }

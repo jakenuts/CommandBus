@@ -7,25 +7,27 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Threading.Tasks;
+
 namespace Kumiko.CommandBus
 {
     /// <summary>
-    /// Defines the ICommandBus type.
+    ///     Defines the ICommandBus type.
     /// </summary>
     public interface ICommandBus
     {
         /// <summary>
-        /// Dispatch a command to the command bus.
+        ///     Dispatch a command to the command bus.
         /// </summary>
         /// <typeparam name="TCommand">
-        /// The command type.
+        ///     The command type.
         /// </typeparam>
         /// <param name="command">
-        /// The command to dispatch.
+        ///     The command to dispatch.
         /// </param>
         /// <returns>
-        /// The result of the dispatch operation.
+        ///     The result of the dispatch operation.
         /// </returns>
-        IDispatchResult Dispatch<TCommand>(TCommand command);
+        Task<IDispatchResult> Dispatch<TCommand>(TCommand command);
     }
 }

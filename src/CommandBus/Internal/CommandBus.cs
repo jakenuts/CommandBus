@@ -7,50 +7,53 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Kumiko.CommandBus
+using System;
+using System.Threading.Tasks;
+
+namespace Kumiko.CommandBus.Internal
 {
     /// <summary>
-    /// Defines the CommandBus type.
+    ///     Defines the CommandBus type.
     /// </summary>
     public class CommandBus : ICommandBus
     {
         /// <summary>
-        /// The dispatcher.
+        ///     The dispatcher.
         /// </summary>
-        private readonly Dispatcher _dispatcher;
+        private readonly IDispatcher _dispatcher;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommandBus"/> class.
+        ///     Initializes a new instance of the <see cref="CommandBus" /> class.
         /// </summary>
         /// <param name="dispatcher">
-        /// The dispatcher.
+        ///     The dispatcher.
         /// </param>
-        public CommandBus(Dispatcher dispatcher)
+        public CommandBus(IDispatcher dispatcher)
         {
             _dispatcher = dispatcher;
         }
 
         /// <summary>
-        /// Dispatch a command to the command bus.
+        ///     Dispatch a command to the command bus.
         /// </summary>
         /// <typeparam name="TCommand">
-        /// The command type.
+        ///     The command type.
         /// </typeparam>
         /// <param name="command">
-        /// The command to dispatch.
+        ///     The command to dispatch.
         /// </param>
         /// <returns>
-        /// The result of the dispatch operation.
+        ///     The result of the dispatch operation.
         /// </returns>
-        public IDispatchResult Dispatch<TCommand>(TCommand command)
+        public async Task<IDispatchResult> Dispatch<TCommand>(TCommand command)
         {
             try
             {
-                var result = _dispatcher.Dispatch(command);
+                var result = await _dispatcher.Dispatch(command);
 
                 return new DispatchResult(result);
             }
-            catch (System.Exception exception)
+            catch (Exception exception)
             {
                 return new DispatchResult(exception);
             }

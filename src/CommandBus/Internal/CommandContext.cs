@@ -7,15 +7,15 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Kumiko.CommandBus
+namespace Kumiko.CommandBus.Internal
 {
     /// <summary>
-    /// Defines the CommandContext type.
+    ///     Defines the CommandContext type.
     /// </summary>
     public class CommandContext : ICommandContext
     {
         /// <summary>
-        /// Gets or sets a value indicating whether abort.
+        ///     Gets or sets a value indicating whether abort.
         /// </summary>
         public bool Abort { get; set; }
     }

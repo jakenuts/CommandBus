@@ -7,20 +7,20 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+
 namespace Kumiko.CommandBus.Example.Users
 {
-    using System;
-
     /// <summary>
-    /// Defines the User type.
+    ///     Defines the User type.
     /// </summary>
     public class User
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="User"/> class.
+        ///     Initializes a new instance of the <see cref="User" /> class.
         /// </summary>
         /// <param name="username">
-        /// The username.
+        ///     The username.
         /// </param>
         public User(string username)
         {
@@ -30,17 +30,17 @@ namespace Kumiko.CommandBus.Example.Users
         }
 
         /// <summary>
-        /// Gets the id.
+        ///     Gets the id.
         /// </summary>
         public Guid Id { get; private set; }
 
         /// <summary>
-        /// Gets the created on.
+        ///     Gets the created on.
         /// </summary>
         public DateTime CreatedOn { get; private set; }
 
         /// <summary>
-        /// Gets the username.
+        ///     Gets the username.
         /// </summary>
         public string Username { get; private set; }
     }

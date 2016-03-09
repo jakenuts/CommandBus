@@ -7,36 +7,36 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Kumiko.CommandBus.Example.Commands;
+using Kumiko.CommandBus.Example.Users;
+
 namespace Kumiko.CommandBus.Example.CommandHandlers
 {
-    using System.Collections.Generic;
-
-    using Kumiko.CommandBus.Example.Commands;
-    using Kumiko.CommandBus.Example.Users;
-
     /// <summary>
-    /// Defines the RegisterUserCommandHandler type.
+    ///     Defines the RegisterUserCommandHandler type.
     /// </summary>
     public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand>
     {
         /// <summary>
-        /// The registered users.
+        ///     The registered users.
         /// </summary>
-        private static readonly HashSet<string> RegisteredUsers = new HashSet<string>();
+        private static HashSet<string> RegisteredUsers = new HashSet<string>();
 
         /// <summary>
-        /// Handle a command.
+        ///     Handle a command.
         /// </summary>
         /// <param name="command">
-        /// The command.
+        ///     The command.
         /// </param>
         /// <param name="context">
-        /// The context.
+        ///     The context.
         /// </param>
         /// <returns>
-        /// The result.
+        ///     The result.
         /// </returns>
-        public object Handle(RegisterUserCommand command, ICommandContext context)
+        public async Task<object> Handle(RegisterUserCommand command, ICommandContext context)
         {
             if (RegisteredUsers.Contains(command.Username))
             {
@@ -47,7 +47,12 @@ namespace Kumiko.CommandBus.Example.CommandHandlers
 
             RegisteredUsers.Add(user.Username);
 
-            return user;
+            return await Task.FromResult(user);
+        }
+
+        public static void ResetUsers()
+        {
+            RegisteredUsers = new HashSet<string>();
         }
     }
 }

@@ -10,12 +10,12 @@
 namespace Kumiko.CommandBus
 {
     /// <summary>
-    /// Defines the ICommandContext type.
+    ///     Defines the ICommandContext type.
     /// </summary>
     public interface ICommandContext
     {
         /// <summary>
-        /// Gets or sets a value indicating whether abort.
+        ///     Gets or sets a value indicating whether abort.
         /// </summary>
         bool Abort { get; set; }
     }

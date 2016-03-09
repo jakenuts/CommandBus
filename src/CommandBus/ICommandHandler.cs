@@ -10,7 +10,7 @@
 namespace Kumiko.CommandBus
 {
     /// <summary>
-    /// Defines the ICommandHandler type.
+    ///     Defines the ICommandHandler type.
     /// </summary>
     public interface ICommandHandler
     {

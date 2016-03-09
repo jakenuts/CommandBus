@@ -10,15 +10,15 @@
 namespace Kumiko.CommandBus.Example.Commands
 {
     /// <summary>
-    /// Defines the RegisterUserCommand type.
+    ///     Defines the RegisterUserCommand type.
     /// </summary>
     public class RegisterUserCommand
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegisterUserCommand"/> class.
+        ///     Initializes a new instance of the <see cref="RegisterUserCommand" /> class.
         /// </summary>
         /// <param name="username">
-        /// The username.
+        ///     The username.
         /// </param>
         public RegisterUserCommand(string username)
         {
@@ -26,7 +26,7 @@ namespace Kumiko.CommandBus.Example.Commands
         }
 
         /// <summary>
-        /// Gets the username.
+        ///     Gets the username.
         /// </summary>
         public string Username { get; private set; }
     }

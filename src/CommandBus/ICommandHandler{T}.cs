@@ -7,28 +7,30 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Threading.Tasks;
+
 namespace Kumiko.CommandBus
 {
     /// <summary>
-    /// Defines the ICommandHandler{T} type.
+    ///     Defines the ICommandHandler{T} type.
     /// </summary>
     /// <typeparam name="T">
-    /// The command type.
+    ///     The command type.
     /// </typeparam>
     public interface ICommandHandler<in T> : ICommandHandler
     {
         /// <summary>
-        /// Handle a command.
+        ///     Handle a command.
         /// </summary>
         /// <param name="command">
-        /// The command.
+        ///     The command.
         /// </param>
         /// <param name="context">
-        /// The context.
+        ///     The context.
         /// </param>
         /// <returns>
-        /// The result.
+        ///     The result.
         /// </returns>
-        object Handle(T command, ICommandContext context);
+        Task<object> Handle(T command, ICommandContext context);
     }
 }

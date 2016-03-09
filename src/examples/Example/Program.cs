@@ -7,52 +7,45 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+using System.Threading.Tasks;
+using Kumiko.CommandBus.Example.CommandHandlers;
+
 namespace Kumiko.CommandBus.Example
 {
-    using System;
-
-    using Kumiko.CommandBus;
-    using Kumiko.CommandBus.Example.Commands;
-    using Kumiko.CommandBus.Example.Users;
-    using Kumiko.CommandBus.StructureMap;
-
-    using global::StructureMap;
-
     /// <summary>
-    /// Defines the Program type.
+    ///     Defines the Program type.
     /// </summary>
     public class Program
     {
         /// <summary>
-        /// Start the command bus example.
+        ///     Start the command bus example.
         /// </summary>
         public static void Main()
         {
-            // 1. Setup the StructureMap container.
-            var container = new Container(configuration =>
+            Console.WriteLine("==== [StructureMap] ====");
+
+            try
             {
-                configuration.For<ICommandHandlerCreator>().Use<StructureMapCommandHandlerCreator>();
-                configuration.For<IDispatcher>().Use<Dispatcher>();
-                configuration.For<ICommandBus>().Use<CommandBus>();
+                Task.Factory.StartNew(StructureMapExample.Go).Wait();
+            }
+            catch (Exception ex1)
+            {
+                Console.WriteLine("Exception - " + ex1.Message);
+            }
 
-                configuration.Scan(scanner =>
-                {
-                    scanner.AssemblyContainingType<Program>();
-                    scanner.ConnectImplementationsToTypesClosing(typeof(ICommandHandler<>));
-                });
-            });
+            RegisterUserCommandHandler.ResetUsers();
 
-            // 2. Create the command bus.
-            var commandBus = container.GetInstance<ICommandBus>();
+            Console.WriteLine("==== [Autofac] ====");
 
-            // 3. Register a new user
-            var user = commandBus.Dispatch(new RegisterUserCommand("username"))
-                .On<User>(createdUser => Console.WriteLine("User '{0}' named '{1}' was created", createdUser.Id, createdUser.Username))
-                .DataAs<User>();
-
-            // 4. Register an existing user and catching the exception.
-            commandBus.Dispatch(new RegisterUserCommand(user.Username))
-                .On<NonUniqueUsernameException>(exception => Console.WriteLine(exception.Message));
+            try
+            {
+                Task.Factory.StartNew(AutofacExample.Go).Wait();
+            }
+            catch (Exception ex1)
+            {
+                Console.WriteLine("Exception - " + ex1.Message);
+            }
 
             Console.WriteLine("Press Enter to exit...");
             Console.ReadLine();

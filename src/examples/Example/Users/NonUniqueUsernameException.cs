@@ -7,20 +7,20 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+
 namespace Kumiko.CommandBus.Example.Users
 {
-    using System;
-
     /// <summary>
-    /// The non unique username exception.
+    ///     The non unique username exception.
     /// </summary>
     public class NonUniqueUsernameException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="NonUniqueUsernameException"/> class.
+        ///     Initializes a new instance of the <see cref="NonUniqueUsernameException" /> class.
         /// </summary>
         /// <param name="username">
-        /// The username.
+        ///     The username.
         /// </param>
         public NonUniqueUsernameException(string username)
             : base(string.Format("'{0}' is not a unique username", username))

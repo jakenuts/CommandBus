@@ -7,25 +7,25 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Kumiko.CommandBus
-{
-    using System;
+using System;
 
+namespace Kumiko.CommandBus.Internal
+{
     /// <summary>
-    /// Defines the DispatchResult type.
+    ///     Defines the DispatchResult type.
     /// </summary>
     public class DispatchResult : IDispatchResult
     {
         /// <summary>
-        /// The result data.
+        ///     The result data.
         /// </summary>
         private readonly object _data;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DispatchResult"/> class.
+        ///     Initializes a new instance of the <see cref="DispatchResult" /> class.
         /// </summary>
         /// <param name="data">
-        /// The data.
+        ///     The data.
         /// </param>
         public DispatchResult(object data)
         {
@@ -33,34 +33,34 @@ namespace Kumiko.CommandBus
         }
 
         /// <summary>
-        /// Get the result data as a given type.
+        ///     Get the result data as a given type.
         /// </summary>
         /// <typeparam name="T">
-        /// The data type.
+        ///     The data type.
         /// </typeparam>
         /// <returns>
-        /// The strongly typed data.
+        ///     The strongly typed data.
         /// </returns>
         public T DataAs<T>()
         {
             if (IsData<T>())
             {
-                return (T)_data;
+                return (T) _data;
             }
 
-            var typeOfData = _data == null ? "(null)" : _data.GetType().ToString();
+            var typeOfData = _data?.GetType().ToString() ?? "(null)";
 
-            throw new InvalidCastException(string.Format("'{0}' can not be casted to '{1}'", typeOfData, typeof(T)));
+            throw new InvalidCastException($"'{typeOfData}' can not be casted to '{typeof (T)}'");
         }
 
         /// <summary>
-        /// Check if the result is of a given type.
+        ///     Check if the result is of a given type.
         /// </summary>
         /// <typeparam name="T">
-        /// The data type.
+        ///     The data type.
         /// </typeparam>
         /// <returns>
-        /// <c>true</c> if data is of given type; otherwise, <c>false</c>.
+        ///     <c>true</c> if data is of given type; otherwise, <c>false</c>.
         /// </returns>
         public bool IsData<T>()
         {
@@ -68,22 +68,22 @@ namespace Kumiko.CommandBus
         }
 
         /// <summary>
-        /// Handle the result if it is of given type.
+        ///     Handle the result if it is of given type.
         /// </summary>
         /// <typeparam name="T">
-        /// The result type to handle.
+        ///     The result type to handle.
         /// </typeparam>
         /// <param name="handler">
-        /// The handler.
+        ///     The handler.
         /// </param>
         /// <returns>
-        /// The dispatch result.
+        ///     The dispatch result.
         /// </returns>
         public IDispatchResult On<T>(Action<T> handler)
         {
             if (handler == null)
             {
-                throw new ArgumentNullException("handler");
+                throw new ArgumentNullException(nameof(handler));
             }
 
             if (IsData<T>())
@@ -95,23 +95,23 @@ namespace Kumiko.CommandBus
         }
 
         /// <summary>
-        /// Handle the result if it is of given type and return
-        /// a new dispatch result.
+        ///     Handle the result if it is of given type and return
+        ///     a new dispatch result.
         /// </summary>
         /// <typeparam name="T">
-        /// The result type to handle.
+        ///     The result type to handle.
         /// </typeparam>
         /// <param name="handler">
-        /// The handler.
+        ///     The handler.
         /// </param>
         /// <returns>
-        /// The dispatch result.
+        ///     The dispatch result.
         /// </returns>
         public IDispatchResult On<T>(Func<T, IDispatchResult> handler)
         {
             if (handler == null)
             {
-                throw new ArgumentNullException("handler");
+                throw new ArgumentNullException(nameof(handler));
             }
 
             return IsData<T>() ? handler(DataAs<T>()) ?? this : this;
