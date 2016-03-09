@@ -44,7 +44,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\CommandBus\CommandBus.csproj">
+    <ProjectReference Include="..\CommandBus\CommandBus.csproj">
       <Project>{da6ddc91-2234-48b9-95b3-9792bdb6e213}</Project>
       <Name>CommandBus</Name>
     </ProjectReference>

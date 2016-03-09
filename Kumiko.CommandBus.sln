@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example", "src\examples\Exa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandBus.StructureMap", "src\CommandBus.StructureMap\CommandBus.StructureMap.csproj", "{CE61D3F2-2A53-400F-89F0-A4FF5122606D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandBus.Autofac", "CommandBus.AutoFac\CommandBus.Autofac.csproj", "{06DED839-1610-40B6-918B-43E1BDD84A69}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandBus.Autofac", "src\CommandBus.Autofac\CommandBus.Autofac.csproj", "{06DED839-1610-40B6-918B-43E1BDD84A69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

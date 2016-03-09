@@ -67,7 +67,7 @@
     <Compile Include="Users\User.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\CommandBus.AutoFac\CommandBus.Autofac.csproj">
+    <ProjectReference Include="..\..\CommandBus.Autofac\CommandBus.Autofac.csproj">
       <Project>{06ded839-1610-40b6-918b-43e1bdd84a69}</Project>
       <Name>CommandBus.Autofac</Name>
     </ProjectReference>
